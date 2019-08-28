@@ -1,0 +1,12 @@
+//定义，引入groovy插件，并依赖 gradleApi()、localGroovy()。
+
+apply plugin: 'groovy'
+
+dependencies {
+    compile gradleApi()
+    compile localGroovy()
+}
+
+repositories {
+    mavenCentral()
+}

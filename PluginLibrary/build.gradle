@@ -1,0 +1,26 @@
+apply plugin: 'groovy'
+apply plugin: 'maven'
+dependencies{
+    compile gradleApi()
+    compile localGroovy()
+}
+
+repositories {
+    mavenCentral()
+}
+
+//这里和 buildSrc 不同的地方就是，buildSrc可以自动的去识别插件，而这里的 pluginlibrary 是无法自动识别的，则首先需要发布到maven库，然后在app的build.gradle中 引入驱动 再引入插件
+
+//1 首先，引用maven 和 groovy库，然后repositories引入 mavenCentral()，再定义 group 和 version，uploadArchives内部的为maven发布地址，我们这里发布的地址为本地， 即使根目录的 publish中。
+
+//2 其次，当我们定义了以上 pluginlibrary 中的 build.gradle之后，android中同步工程，当同步成功之后，模块 pluginlibrary中会显示 一个上传任务
+
+group='com.walker.plugin'
+version='1.0.0'
+uploadArchives{
+    repositories {
+        mavenDeployer {
+            repository(url: uri('../publish'))
+        }
+    }
+}

@@ -1,0 +1,31 @@
+//定义类
+class GreetingPlguin implements Plugin<Project> {
+    @Override
+    void apply(Project target) {
+        println("GreetingPlguin is executed!!!!!!")
+
+        //解析属性
+        def extension = target.extensions.create("greeting", GreetingPluginExtension)
+        target.task('hello') {
+            doLast {
+                println("Hello from the GreetingPlugin")
+                //读取配置信息
+                println(String.valueOf(extension.showMsg) + "," + extension.message + "," + extension.time)
+            }
+        }
+    }
+}
+
+class GreetingPluginExtension {
+    def showMsg = "init";
+    def message = "init";
+    def time = "init";
+}
+
+//引用插件
+apply plugin: GreetingPlguin
+greeting {
+    showMsg = true
+    message = "walker"
+    time = "2019/08/28"
+}
